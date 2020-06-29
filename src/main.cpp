@@ -29,13 +29,14 @@ std::string hostname() {
 
 int main(int argc, const char* argv[]) {
   auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  std::cerr << "Paranoia started on " << hostname() << " at " << std::put_time(std::localtime(&now), "%F %T %Z") << "\n";
+  std::cerr << "Paranoia started on " << hostname() << " at " << std::put_time(std::localtime(&now), "%F %T %Z")
+            << "\n";
 
   MessageQueue<std::unique_ptr<ProcessEvent>> nonAnnotatedEvents;
   MessageQueue<std::unique_ptr<ProcessEvent>> annotatedEvents;
   ProcFSCache procFSCache;
 
-  ProcessEventWriter writer(procFSCache, selectFormat(std::getenv("PARANOIA_OUT_FORMAT")), std::cout);
+  ProcessEventWriter writer(procFSCache, selectFormat(std::getenv("PARANOIA_OUTPUT_FORMAT")), std::cout);
 
   ProcessEventAnnotator annotator(procFSCache);
 
