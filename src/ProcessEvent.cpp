@@ -42,10 +42,10 @@ void ForkProcessEvent::annotate(ProcFSCache& procfsCache) {
   pid_t cPid = event.proc_ev.event_data.fork.child_pid;
   pid_t pTgid = event.proc_ev.event_data.fork.parent_tgid;
   pid_t cTgid = event.proc_ev.event_data.fork.child_tgid;
-  procfsCache.refresh(pPid, ProcFSInfo{ProcFSParser::Command(pPid)});
-  procfsCache.refresh(cPid, ProcFSInfo{ProcFSParser::Command(cPid)});
-  procfsCache.refresh(pTgid, ProcFSInfo{ProcFSParser::Command(pTgid)});
-  procfsCache.refresh(cTgid, ProcFSInfo{ProcFSParser::Command(cTgid)});
+  procfsCache.refresh(pPid, std::move(ProcFSInfo{ProcFSParser::Command(pPid)}));
+  procfsCache.refresh(cPid, std::move(ProcFSInfo{ProcFSParser::Command(cPid)}));
+  procfsCache.refresh(pTgid, std::move(ProcFSInfo{ProcFSParser::Command(pTgid)}));
+  procfsCache.refresh(cTgid, std::move(ProcFSInfo{ProcFSParser::Command(cTgid)}));
 }
 
 std::map<std::string, std::string> ForkProcessEvent::asKeyValuePairs(ProcFSCache& procfsCache) const {
@@ -70,8 +70,8 @@ std::map<std::string, std::string> ForkProcessEvent::asKeyValuePairs(ProcFSCache
 void ExecProcessEvent::annotate(ProcFSCache& procfsCache) {
   pid_t pid = event.proc_ev.event_data.exec.process_pid;
   pid_t tgid = event.proc_ev.event_data.exec.process_tgid;
-  procfsCache.refresh(pid, ProcFSInfo{ProcFSParser::Command(pid)});
-  procfsCache.refresh(tgid, ProcFSInfo{ProcFSParser::Command(tgid)});
+  procfsCache.refresh(pid, std::move(ProcFSInfo{ProcFSParser::Command(pid)}));
+  procfsCache.refresh(tgid, std::move(ProcFSInfo{ProcFSParser::Command(tgid)}));
 }
 
 std::map<std::string, std::string> ExecProcessEvent::asKeyValuePairs(ProcFSCache& procfsCache) const {
