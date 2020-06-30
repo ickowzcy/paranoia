@@ -10,6 +10,7 @@ under the hood when you type different commands into your shell; or when you exe
 At present, Paranoia is only supported on Linux systems.
 
 ## Dependencies for Running Locally
+* A recent linux kernel (ideally >= 5.4)
 * cmake >= 3.16
   * [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.2
@@ -28,14 +29,15 @@ At present, Paranoia is only supported on Linux systems.
 4. Be paranoid: `./paranoia` (requires access to create raw sockets -- you may need to be root)
                           
 ## Type of events monitored
-Presently, the following proc event types:
+Presently, visibility is provided into the following proc event types:
 - exec
 - fork
 - exit
 
 ## Output formats supported
-Two output formts are available for your convenience. `text` is the default,
-and mostly useful for human consumption.
+Two output formats are available for your convenience. `text` is the default;
+it is mostly useful for human consumption.
+
 With the following environment variable set, the output will be formatted in `json`:
 ```
 PARANOIA_OUTPUT_FORMAT=json
