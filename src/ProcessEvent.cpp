@@ -90,29 +90,33 @@ std::map<std::string, std::string> ExecProcessEvent::asKeyValuePairs(ProcFSCache
 void ExitProcessEvent::annotate(ProcFSCache& procfsCache) {}
 
 std::map<std::string, std::string> ExitProcessEvent::asKeyValuePairs(ProcFSCache& procfsCache) const {
-    std::map<std::string, std::string> kvs;
-    pid_t pPid = event.proc_ev.event_data.exit.parent_pid;
-    pid_t pid = event.proc_ev.event_data.exit.process_pid;
-    pid_t pTgid = event.proc_ev.event_data.exit.parent_tgid;
-    pid_t tgid = event.proc_ev.event_data.exit.process_tgid;
-    uint32_t exit_code = event.proc_ev.event_data.exit.exit_code;
-    uint32_t exit_signal = event.proc_ev.event_data.exit.exit_signal;
-    kvs[TYPE_KEY] = TYPE_EXIT;
-    kvs[TIMESTAMP_KEY] = std::to_string(timestamp);
-    kvs[PID_PARENT_KEY] = std::to_string(pPid);
-    kvs[PID_KEY] = std::to_string(pid);
-    kvs[TGID_PARENT_KEY] = std::to_string(pTgid);
-    kvs[TGID_KEY] = std::to_string(tgid);
-    kvs[EXIT_CODE_KEY] = std::to_string(exit_code);
-    kvs[EXIT_SIGNAL_KEY] = std::to_string(exit_signal);
-    kvs[CMDLINE_PARENT_KEY] = procfsCache.read(pTgid).processName.empty() ? procfsCache.read(pPid).processName
-                                                                          : procfsCache.read(pTgid).processName;
-    kvs[CMDLINE_KEY] = procfsCache.read(tgid).processName.empty() ? procfsCache.read(pid).processName
-                                                                         : procfsCache.read(tgid).processName;
-    return std::move(kvs);
+  std::map<std::string, std::string> kvs;
+
+  // TODO: not available in older kernels; add logic for detecting kernel release
+  // pid_t pPid = event.proc_ev.event_data.exit.parent_pid;
+  // pid_t pTgid = event.proc_ev.event_data.exit.parent_tgid;
+  // kvs[PID_PARENT_KEY] = std::to_string(pPid);
+  // kvs[TGID_PARENT_KEY] = std::to_string(pTgid);
+  // kvs[CMDLINE_PARENT_KEY] = procfsCache.read(pTgid).processName.empty() ? procfsCache.read(pPid).processName
+  //                                                                    : procfsCache.read(pTgid).processName;
+
+  pid_t pid = event.proc_ev.event_data.exit.process_pid;
+  pid_t tgid = event.proc_ev.event_data.exit.process_tgid;
+  uint32_t exit_code = event.proc_ev.event_data.exit.exit_code;
+  uint32_t exit_signal = event.proc_ev.event_data.exit.exit_signal;
+  kvs[TYPE_KEY] = TYPE_EXIT;
+  kvs[TIMESTAMP_KEY] = std::to_string(timestamp);
+  kvs[PID_KEY] = std::to_string(pid);
+  kvs[TGID_KEY] = std::to_string(tgid);
+  kvs[EXIT_CODE_KEY] = std::to_string(exit_code);
+  kvs[EXIT_SIGNAL_KEY] = std::to_string(exit_signal);
+
+  kvs[CMDLINE_KEY] = procfsCache.read(tgid).processName.empty() ? procfsCache.read(pid).processName
+                                                                : procfsCache.read(tgid).processName;
+  return std::move(kvs);
 }
 
-void ExitProcessEvent::postWriteHook(ProcFSCache &procfsCache) const {
-    pid_t tgid = event.proc_ev.event_data.exit.process_tgid;
-    procfsCache.invalidate(tgid);
+void ExitProcessEvent::postWriteHook(ProcFSCache& procfsCache) const {
+  pid_t tgid = event.proc_ev.event_data.exit.process_tgid;
+  procfsCache.invalidate(tgid);
 }
