@@ -67,7 +67,7 @@ class ExitProcessEvent : public ProcessEvent {
 
  private:
   [[nodiscard]] std::map<std::string, std::string> asKeyValuePairs(ProcFSCache& procfsCache) const;
-  void postWriteHook(ProcFSCache& procFsCache) const;
+  void postWriteHook(ProcFSCache& procFsCache) const override;
 };
 
 #endif  // PARANOIA_PROCESSEVENT_H
