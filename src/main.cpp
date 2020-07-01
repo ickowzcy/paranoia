@@ -48,7 +48,7 @@ int main(int argc, const char* argv[]) {
   std::cerr << "Spinning ← ↖ ↑ ↗ → ↘ ↓ ↙ ..."
             << "\n";
 
-  listener.listen(&nonAnnotatedEvents);
+  listener.Listen(&nonAnnotatedEvents);
 
   annotatorThread.join();
   writerThread.join();

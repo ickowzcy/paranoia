@@ -5,22 +5,23 @@
 
 #include <sstream>
 
+#include "NetlinkSocket.h"
 #include "ProcFSCache.h"
 #include "ProcFSParser.h"
-#include "NetlinkSocket.h"
 
 ProcessEventListener::ProcessEventListener() {
-  nlSocket.Bind();
-  nlSocket.Subscribe();
+  nlSocket_.Bind();
+  nlSocket_.Subscribe();
+  RegisterEventFactories();
 }
 
-void ProcessEventListener::listen(MessageQueue<std::unique_ptr<ProcessEvent>>* queue) const {
+void ProcessEventListener::Listen(MessageQueue<std::unique_ptr<ProcessEvent>>* queue) const {
   auto clk = std::chrono::system_clock();
 
   nlcn_msg event{};
   while (true) {
     try {
-      event = nlSocket.Recv();
+      event = nlSocket_.Recv();
     } catch (interrupted_error& e) {
       int delaySecs = 2;
       std::cerr << e.what();
@@ -30,23 +31,26 @@ void ProcessEventListener::listen(MessageQueue<std::unique_ptr<ProcessEvent>>* q
       continue;
     }
 
-    std::unique_ptr<ProcessEvent> msg;
-    switch (event.proc_ev.what) {
-      case proc_event::what::PROC_EVENT_NONE:
-        msg = std::make_unique<NoneProcessEvent>(event, clk.to_time_t(clk.now()));
-        break;
-      case proc_event::what::PROC_EVENT_FORK:
-        msg = std::make_unique<ForkProcessEvent>(event, clk.to_time_t(clk.now()));
-        break;
-      case proc_event::what::PROC_EVENT_EXEC:
-        msg = std::make_unique<ExecProcessEvent>(event, clk.to_time_t(clk.now()));
-        break;
-      case proc_event::what::PROC_EVENT_EXIT:
-        msg = std::make_unique<ExitProcessEvent>(event, clk.to_time_t(clk.now()));
-        break;
-      default:
-        continue;
+    try {
+      queue->send(factories_.at(event.proc_ev.what)(event, clk.to_time_t(clk.now())));
+    } catch (std::out_of_range&) {
+      // Ignore non registered events
     }
-    queue->send(std::move(msg));
   }
+}
+
+void ProcessEventListener::RegisterEventFactories() {
+  auto registerEventFactory = [this](EventType type, EventFactory&& factory) { factories_[type] = std::move(factory); };
+
+  registerEventFactory(proc_event::what::PROC_EVENT_NONE,
+                       [](nlcn_msg event, time_t t) { return std::make_unique<NoneProcessEvent>(event, t); });
+
+  registerEventFactory(proc_event::what::PROC_EVENT_FORK,
+                       [](nlcn_msg event, time_t t) { return std::make_unique<ForkProcessEvent>(event, t); });
+
+  registerEventFactory(proc_event::what::PROC_EVENT_EXEC,
+                       [](nlcn_msg event, time_t t) { return std::make_unique<ExecProcessEvent>(event, t); });
+
+  registerEventFactory(proc_event::what::PROC_EVENT_EXIT,
+                       [](nlcn_msg event, time_t t) { return std::make_unique<ExitProcessEvent>(event, t); });
 }
