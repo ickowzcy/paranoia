@@ -8,6 +8,10 @@
 #include "netlink_socket.h"
 #include "procfs_cache.h"
 #include "procfs_parser.h"
+#include "process_event_none.h"
+#include "process_event_fork.h"
+#include "process_event_exec.h"
+#include "process_event_exit.h"
 
 ProcessEventListener::ProcessEventListener() {
   nlsocket.Bind();

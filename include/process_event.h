@@ -33,41 +33,4 @@ class ProcessEvent {
   time_t timestamp{};
 };
 
-class NoneProcessEvent : public ProcessEvent {
- public:
-  NoneProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
-  void Annotate(ProcFSCache& cache) override;
-
- private:
-  [[nodiscard]] std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const override;
-};
-
-class ForkProcessEvent : public ProcessEvent {
- public:
-  ForkProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
-  void Annotate(ProcFSCache& cache) override;
-
- private:
-  [[nodiscard]] std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const override;
-};
-
-class ExecProcessEvent : public ProcessEvent {
- public:
-  ExecProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
-  void Annotate(ProcFSCache& cache) override;
-
- private:
-  [[nodiscard]] std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const override;
-};
-
-class ExitProcessEvent : public ProcessEvent {
- public:
-  ExitProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
-  void Annotate(ProcFSCache& cache) override;
-
- private:
-  [[nodiscard]] std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const override;
-  void PostWriteHook(ProcFSCache& cache) const override;
-};
-
 #endif  // PARANOIA_PROCESS_EVENT_H
