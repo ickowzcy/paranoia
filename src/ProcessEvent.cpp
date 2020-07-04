@@ -92,13 +92,12 @@ void ExitProcessEvent::annotate(ProcFSCache& procfsCache) {}
 std::map<std::string, std::string> ExitProcessEvent::asKeyValuePairs(ProcFSCache& procfsCache) const {
   std::map<std::string, std::string> kvs;
 
-  // TODO: not available in older kernels; add logic for detecting kernel release
-  // pid_t pPid = event.proc_ev.event_data.exit.parent_pid;
-  // pid_t pTgid = event.proc_ev.event_data.exit.parent_tgid;
-  // kvs[PID_PARENT_KEY] = std::to_string(pPid);
-  // kvs[TGID_PARENT_KEY] = std::to_string(pTgid);
-  // kvs[CMDLINE_PARENT_KEY] = procfsCache.read(pTgid).processName.empty() ? procfsCache.read(pPid).processName
-  //                                                                    : procfsCache.read(pTgid).processName;
+  pid_t pPid = event.proc_ev.event_data.exit.parent_pid;
+  pid_t pTgid = event.proc_ev.event_data.exit.parent_tgid;
+  kvs[PID_PARENT_KEY] = std::to_string(pPid);
+  kvs[TGID_PARENT_KEY] = std::to_string(pTgid);
+  kvs[CMDLINE_PARENT_KEY] = procfsCache.read(pTgid).processName.empty() ? procfsCache.read(pPid).processName
+                                                                        : procfsCache.read(pTgid).processName;
 
   pid_t pid = event.proc_ev.event_data.exit.process_pid;
   pid_t tgid = event.proc_ev.event_data.exit.process_tgid;
