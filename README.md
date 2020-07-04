@@ -1,16 +1,16 @@
-# CPPND: Paranoia -- a process monitoring tool for Linux systems
+# Paranoia: a process monitoring tool for Linux systems
 
 Paranoia is a small footprint tool which can help the paranoid audit events related to process creation / destruction on their
 Linux systems. Paranoia works by using the kernel's netlink connector mechanism to subscribe to events and output them to stdout
 in a formatted way for easy consumption. You could, for instance, use Paranoia to log such events to disk, an Elasticsearch cluster,
-or another storage device, for auditing purposes. You could also use Paranoia as an education means for understanding what goes on
-under the hood when you type different commands into your shell; or when you execute different applications.
+or another storage device, for auditing purposes. You could also use Paranoia as an educational means for understanding what goes on
+under the hood when you type different commands into your shell, or when you execute different applications.
 
 ## Supported Operating Sytems
 At present, Paranoia is only supported on Linux systems.
 
 ## Dependencies for Running Locally
-* A recent linux kernel (ideally >= 5.4)
+* A recent linux kernel (at least 4.18)
 * cmake >= 3.16
   * [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.2
@@ -26,7 +26,7 @@ At present, Paranoia is only supported on Linux systems.
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Be paranoid: `./paranoia` (requires access to create raw sockets -- you may need to be root)
+4. Be paranoid: `./paranoia` (you may need to be root)
                           
 ## Type of events monitored
 Presently, visibility is provided into the following proc event types:
