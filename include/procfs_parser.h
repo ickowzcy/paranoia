@@ -1,5 +1,5 @@
-#ifndef PARANOIA_PROCFSPARSER_H
-#define PARANOIA_PROCFSPARSER_H
+#ifndef PARANOIA_PROCFS_PARSER_H
+#define PARANOIA_PROCFS_PARSER_H
 
 #include <string>
 
@@ -10,4 +10,4 @@ constexpr auto CMDLINE_FILE = "/cmdline";
 std::string Command(int pid);
 }  // namespace ProcFSParser
 
-#endif  // PARANOIA_PROCFSPARSER_H
+#endif  // PARANOIA_PROCFS_PARSER_H

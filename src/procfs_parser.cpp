@@ -1,4 +1,4 @@
-#include "ProcFSParser.h"
+#include "procfs_parser.h"
 
 #include <iostream>
 #include <fstream>

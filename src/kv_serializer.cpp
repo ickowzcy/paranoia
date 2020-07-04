@@ -1,10 +1,10 @@
-#include "KVSerializer.h"
+#include "kv_serializer.h"
 
 #include <iomanip>
 #include <nlohmann/json.hpp>
 #include <sstream>
 
-std::string KVTextSerializer::encode(const std::map<std::string, std::string>& keyValuePairs) const {
+std::string KVTextSerializer::Encode(const std::map<std::string, std::string>& keyValuePairs) const {
   std::ostringstream oss;
   oss << "[ ";
 
@@ -20,7 +20,7 @@ std::string KVTextSerializer::encode(const std::map<std::string, std::string>& k
   return oss.str();
 }
 
-std::string KVJSONSerializer::encode(const std::map<std::string, std::string>& keyValuePairs) const {
+std::string KVJSONSerializer::Encode(const std::map<std::string, std::string>& keyValuePairs) const {
   nlohmann::json j(keyValuePairs);
   std::ostringstream oss;
   oss << j;

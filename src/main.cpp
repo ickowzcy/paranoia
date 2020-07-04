@@ -3,13 +3,13 @@
 #include <iomanip>
 #include <iostream>
 
-#include "ProcessEvent.h"
-#include "ProcessEventAnnotator.h"
-#include "ProcessEventListener.h"
-#include "ProcessEventWriter.h"
+#include "process_event.h"
+#include "process_event_annotator.h"
+#include "process_event_listener.h"
+#include "process_event_writer.h"
 
-OutputFormat selectFormat(const char* format) {
-  if (format != nullptr && std::string(format) == "json") {
+OutputFormat select_format(const char* fmt) {
+  if (fmt != nullptr && std::string(fmt) == "json") {
     return OutputFormat::JSON;
   }
   return OutputFormat::TEXT;
@@ -32,24 +32,24 @@ int main(int argc, const char* argv[]) {
   std::cerr << "Paranoia started on " << hostname() << " at " << std::put_time(std::localtime(&now), "%F %T %Z")
             << "\n";
 
-  MessageQueue<std::unique_ptr<ProcessEvent>> nonAnnotatedEvents;
-  MessageQueue<std::unique_ptr<ProcessEvent>> annotatedEvents;
-  ProcFSCache procFSCache;
+  MsgQueue<std::unique_ptr<ProcessEvent>> non_annotated_events;
+  MsgQueue<std::unique_ptr<ProcessEvent>> annotated_events;
+  ProcFSCache procfs_cache;
 
-  ProcessEventWriter writer(procFSCache, selectFormat(std::getenv("PARANOIA_OUTPUT_FORMAT")), std::cout);
+  ProcessEventWriter writer(procfs_cache, select_format(std::getenv("PARANOIA_OUTPUT_FORMAT")), std::cout);
 
-  ProcessEventAnnotator annotator(procFSCache);
+  ProcessEventAnnotator annotator(procfs_cache);
 
   ProcessEventListener listener;
 
-  std::thread writerThread(&ProcessEventWriter::write, &writer, &annotatedEvents);
-  std::thread annotatorThread(&ProcessEventAnnotator::Annotate, &annotator, &nonAnnotatedEvents, &annotatedEvents);
+  std::thread writer_thread(&ProcessEventWriter::Write, &writer, &annotated_events);
+  std::thread annotator_thread(&ProcessEventAnnotator::Annotate, &annotator, &non_annotated_events, &annotated_events);
 
   std::cerr << "Spinning ← ↖ ↑ ↗ → ↘ ↓ ↙ ..."
             << "\n";
 
-  listener.Listen(&nonAnnotatedEvents);
+  listener.Listen(&non_annotated_events);
 
-  annotatorThread.join();
-  writerThread.join();
+  annotator_thread.join();
+  writer_thread.join();
 }

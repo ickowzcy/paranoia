@@ -1,5 +1,5 @@
-#ifndef PARANOIA_NETLINKSOCKET_H
-#define PARANOIA_NETLINKSOCKET_H
+#ifndef PARANOIA_NETLINK_SOCKET_H
+#define PARANOIA_NETLINK_SOCKET_H
 
 #include <linux/cn_proc.h>
 #include <linux/connector.h>
@@ -14,14 +14,14 @@
 #include <cstring>
 #include <exception>
 
-#include "KVSerializer.h"
-#include "MessageQueue.h"
-#include "ProcFSCache.h"
+#include "kv_serializer.h"
+#include "msg_queue.h"
+#include "procfs_cache.h"
 #include "map"
 
 // Struct used to read events via the Netlink connector mechanism.
 // See: https://github.com/torvalds/linux/blob/master/include/uapi/linux/cn_proc.h
-struct __attribute__((aligned(NLMSG_ALIGNTO))) nlcn_msg {
+struct __attribute__((aligned(NLMSG_ALIGNTO))) NetlinkMsg {
   struct nlmsghdr nl_hdr;
   struct __attribute__((__packed__)) {
     struct cn_msg cn_msg;
@@ -40,15 +40,15 @@ class NetlinkSocket {
 
   void Bind() const;
   void Subscribe() const;
-  [[nodiscard]] nlcn_msg Recv() const;
+  [[nodiscard]] NetlinkMsg Recv() const;
 
  private:
-  int nl_sock_{};
+  int nl_sock{};
 };
 
-class interrupted_error : public std::exception {
+class InterruptedException : public std::exception {
  public:
   [[nodiscard]] const char* what() const noexcept override { return "EINTR: interrupted!"; }
 };
 
-#endif  // PARANOIA_NETLINKSOCKET_H
+#endif  // PARANOIA_NETLINK_SOCKET_H

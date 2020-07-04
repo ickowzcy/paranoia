@@ -1,5 +1,5 @@
-#ifndef PARANOIA_PROCFSCACHE_H
-#define PARANOIA_PROCFSCACHE_H
+#ifndef PARANOIA_PROCFS_CACHE_H
+#define PARANOIA_PROCFS_CACHE_H
 
 #include <errno.h>
 #include <linux/cn_proc.h>
@@ -15,22 +15,22 @@
 
 #include <mutex>
 
-#include "MessageQueue.h"
+#include "msg_queue.h"
 #include "unordered_map"
 
 struct ProcFSInfo {
-  std::string processName;
+  std::string cmdline;
 };
 
 class ProcFSCache {
  public:
-  void refresh(pid_t pid, ProcFSInfo data);
-  ProcFSInfo read(pid_t);
-  void invalidate(pid_t pid);
+  void Refresh(pid_t pid, ProcFSInfo data);
+  ProcFSInfo Read(pid_t pid);
+  void Invalidate(pid_t pid);
 
  private:
-  std::unordered_map<pid_t, ProcFSInfo> procfsCache_;
-  std::mutex mtx_;
+  std::unordered_map<pid_t, ProcFSInfo> cache;
+  std::mutex mtx;
 };
 
-#endif  // PARANOIA_PROCFSCACHE_H
+#endif  // PARANOIA_PROCFS_CACHE_H
