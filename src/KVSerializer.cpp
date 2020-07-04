@@ -1,5 +1,6 @@
 #include "KVSerializer.h"
 
+#include <iomanip>
 #include <nlohmann/json.hpp>
 #include <sstream>
 
@@ -10,7 +11,7 @@ std::string KVTextSerializer::encode(const std::map<std::string, std::string>& k
   for (const auto& kv : keyValuePairs) {
     oss << kv.first;
     oss << ":";
-    oss << "\"" << kv.second << "\"";
+    oss << std::quoted(kv.second);
     oss << " ";
   }
 
