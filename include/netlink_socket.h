@@ -43,7 +43,7 @@ class NetlinkSocket {
   [[nodiscard]] NetlinkMsg Recv() const;
 
  private:
-  int nl_sock{};
+  int nlsock{};
 };
 
 class InterruptedException : public std::exception {

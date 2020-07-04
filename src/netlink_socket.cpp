@@ -6,8 +6,8 @@
 #include <sstream>
 
 NetlinkSocket::NetlinkSocket() {
-    nl_sock = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
-  if (nl_sock == -1) {
+    nlsock = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
+  if (nlsock == -1) {
     std::ostringstream oss;
     oss << "Error creating socket: ";
     oss << std::strerror(errno);
@@ -16,7 +16,7 @@ NetlinkSocket::NetlinkSocket() {
   }
 }
 
-NetlinkSocket::~NetlinkSocket() { close(nl_sock); }
+NetlinkSocket::~NetlinkSocket() { close(nlsock); }
 
 void NetlinkSocket::Bind() const {
   struct sockaddr_nl sa_nl;
@@ -24,13 +24,13 @@ void NetlinkSocket::Bind() const {
   sa_nl.nl_groups = CN_IDX_PROC;
   sa_nl.nl_pid = getpid();
 
-  int rc = bind(nl_sock, (struct sockaddr*)&sa_nl, sizeof(sa_nl));
+  int rc = bind(nlsock, (struct sockaddr*)&sa_nl, sizeof(sa_nl));
   if (rc == -1) {
     std::ostringstream oss;
     oss << "Error binding to netlink socket: ";
     oss << std::strerror(errno);
     oss << "\n";
-    close(nl_sock);
+    close(nlsock);
     throw std::runtime_error(oss.str());
   }
 }
@@ -55,7 +55,7 @@ void NetlinkSocket::Subscribe() const {
 
     msg.cn_mcast = PROC_CN_MCAST_LISTEN;
 
-  int rc = send(nl_sock, &msg, sizeof(msg), 0);
+  int rc = send(nlsock, &msg, sizeof(msg), 0);
   if (rc == -1) {
     std::ostringstream oss;
     oss << "Error subscribing to netlink connector: ";
@@ -67,7 +67,7 @@ void NetlinkSocket::Subscribe() const {
 
 NetlinkMsg NetlinkSocket::Recv() const {
   NetlinkMsg event;
-  int rc = recv(nl_sock, &event, sizeof(NetlinkMsg), 0);
+  int rc = recv(nlsock, &event, sizeof(NetlinkMsg), 0);
   if (rc == -1) {
     if (errno == EINTR) {
         throw InterruptedException();
