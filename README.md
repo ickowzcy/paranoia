@@ -38,14 +38,31 @@ Presently, visibility is provided into the following proc event types:
 Two output formats are available for your convenience. `text` is the default;
 it is mostly useful for human consumption.
 
-With the following environment variable set, the output will be formatted in `json`:
+With the following environment variable set, the output will be formatted as `json`:
 ```
 PARANOIA_OUTPUT_FORMAT=json
+```
+
+### Example of output formatted as `text`:
+```
+2020-07-05 03:26:32 UTC : FORK → [ child_cmd:"-bash" child_pid:"72211" child_tgid:"72211" parent_cmd:"-bash" parent_pid:"71823" parent_tgid:"71823" ]
+2020-07-05 03:26:32 UTC : EXEC → [ cmd:"sleep 10" pid:"72211" tgid:"72211" ]
+2020-07-05 03:26:42 UTC : EXIT → [ cmd:"sleep 10" exit_code:"0" exit_signal:"17" parent_cmd:"-bash" parent_pid:"71823" parent_tgid:"71823" pid:"72211" tgid:"72211" ]
+```
+
+### Example of output formatted as `json`:
+```
+{"child_cmd":"-bash","child_pid":"72046","child_tgid":"72046","parent_cmd":"-bash","parent_pid":"71823","parent_tgid":"71823","timestamp":"1593916602","type":"fork"}
+{"cmd":"sleep 10","pid":"72046","tgid":"72046","timestamp":"1593916602","type":"exec"}
+{"cmd":"sleep 10","exit_code":"0","exit_signal":"17","parent_cmd":"-bash","parent_pid":"71823","parent_tgid":"71823","pid":"72046","tgid":"72046","timestamp":"1593916612","type":"exit"}
 ```
 
 ## Coming soon
 - Tests!
 - Support for more event types (e.g., ptrace, sid)
+
+## Licence
+This project is licensed under the [MIT License](LICENSE).
 
 ## Related material
 - https://bewareofgeek.livejournal.com/2945.html
