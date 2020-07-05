@@ -11,15 +11,17 @@ At present, Paranoia is only supported on Linux systems.
 
 ## Dependencies for Running Locally
 * A recent linux kernel (at least 4.18)
-* cmake >= 3.16
-  * [click here for installation instructions](https://cmake.org/install/)
-* make >= 4.2
-  * make is installed by default on most Linux distros
-* gcc/g++ >= 9.3
-  * gcc / g++ is installed by default on most Linux distros
-* nlohmann/json >= 3.7.3
-  * available on [github](https://github.com/nlohmann/json) (automatically 
-  downloaded using cmake's `FetchContent` -- see instructions below)
+* `cmake >= 3.16`
+  * [Click here for installation instructions](https://cmake.org/install/).
+* `make >= 4.2`
+  * `make` is installed by default on most Linux distros. Checkout your distro documentation for
+  more information.
+* `gcc >= 9.3`
+  * `gcc` is installed by default on most Linux distros. Check out your distro documentation 
+  for more information.
+* `nlohmann/json >= 3.7.3`
+  * Automatically downloaded using cmake's `FetchContent` -- see instructions [below](#basic-build-instructions).
+  * [nlohmann/json](https://github.com/nlohmann/json) source code is also available on github.
 
 ## Basic Build Instructions
 
