@@ -48,8 +48,6 @@ int main(int argc, const char* argv[]) {
   std::cerr << "Spinning ← ↖ ↑ ↗ → ↘ ↓ ↙ ..."
             << "\n";
 
+  // Next call blocks
   listener.Listen(&non_annotated_events);
-
-  annotator_thread.join();
-  writer_thread.join();
 }
