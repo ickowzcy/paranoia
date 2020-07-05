@@ -59,8 +59,7 @@ PARANOIA_OUTPUT_FORMAT=json
 {"cmd":"sleep 10","exit_code":"0","exit_signal":"17","parent_cmd":"-bash","parent_pid":"71823","parent_tgid":"71823","pid":"72046","tgid":"72046","timestamp":"1593916612","type":"exit"}
 ```
 
-## Coming soon
-- Tests!
+## Future plans
 - Support for more event types (e.g., ptrace, sid)
 
 ## Licence
