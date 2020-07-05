@@ -9,8 +9,9 @@ ProcessEventWriter::ProcessEventWriter(ProcFSCache& cache, const OutputFormat& f
     : cache(cache), os(os) {
   if (OutputFormat::JSON == format) {
       serializer = std::make_unique<KVJSONSerializer>();
+  } else {
+      serializer = std::make_unique<KVTextSerializer>();
   }
-    serializer = std::make_unique<KVTextSerializer>();
 }
 
 [[noreturn]] void ProcessEventWriter::Write(MsgQueue<std::unique_ptr<ProcessEvent>>* queue) {
