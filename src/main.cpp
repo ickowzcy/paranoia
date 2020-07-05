@@ -36,7 +36,7 @@ int main(int argc, const char* argv[]) {
   MsgQueue<std::unique_ptr<ProcessEvent>> annotated_events;
   ProcFSCache procfs_cache;
 
-  ProcessEventWriter writer(procfs_cache, select_format(std::getenv("PARANOIA_OUTPUT_FORMAT")), std::cout);
+  ProcessEventWriter writer(procfs_cache, select_format(std::getenv("PARANOIA_OUTPUT_FORMAT")));
 
   ProcessEventAnnotator annotator(procfs_cache);
 
