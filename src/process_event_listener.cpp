@@ -6,12 +6,13 @@
 #include <sstream>
 
 #include "netlink_socket.h"
-#include "procfs_cache.h"
-#include "procfs_parser.h"
-#include "process_event_none.h"
-#include "process_event_fork.h"
+#include "process_event_coredump.h"
 #include "process_event_exec.h"
 #include "process_event_exit.h"
+#include "process_event_fork.h"
+#include "process_event_none.h"
+#include "procfs_cache.h"
+#include "procfs_parser.h"
 
 ProcessEventListener::ProcessEventListener() {
   nlsocket.Bind();
@@ -36,7 +37,7 @@ void ProcessEventListener::Listen(MsgQueue<std::unique_ptr<ProcessEvent>>* queue
     }
 
     try {
-        queue->Send(factories.at(event.proc_ev.what)(event, clk.to_time_t(clk.now())));
+      queue->Send(factories.at(event.proc_ev.what)(event, clk.to_time_t(clk.now())));
     } catch (std::out_of_range&) {
       // Ignore non registered events
     }
@@ -57,4 +58,7 @@ void ProcessEventListener::RegisterEventFactories() {
 
   registerEventFactory(proc_event::what::PROC_EVENT_EXIT,
                        [](NetlinkMsg event, time_t t) { return std::make_unique<ExitProcessEvent>(event, t); });
+
+  registerEventFactory(proc_event::what::PROC_EVENT_COREDUMP,
+                       [](NetlinkMsg event, time_t t) { return std::make_unique<CoredumpProcessEvent>(event, t); });
 }

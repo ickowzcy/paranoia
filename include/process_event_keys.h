@@ -3,6 +3,7 @@
 
 constexpr auto TYPE_KEY = "type";
 constexpr auto TYPE_NONE = "none";
+constexpr auto TYPE_COREDUMP = "coredump";
 constexpr auto TYPE_FORK = "fork";
 constexpr auto TYPE_EXEC = "exec";
 constexpr auto TYPE_EXIT = "exit";
