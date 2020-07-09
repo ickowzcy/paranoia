@@ -6,6 +6,8 @@ void ExitProcessEvent::Annotate(ProcFSCache& cache) {}
 
 std::map<std::string, std::string> ExitProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {
   std::map<std::string, std::string> kvs;
+  kvs[TYPE_KEY] = TYPE_EXIT;
+  kvs[TIMESTAMP_KEY] = std::to_string(ProcessEvent::timestamp);
 
   pid_t pPid = ProcessEvent::event.proc_ev.event_data.exit.parent_pid;
   pid_t pTgid = ProcessEvent::event.proc_ev.event_data.exit.parent_tgid;
@@ -17,14 +19,13 @@ std::map<std::string, std::string> ExitProcessEvent::AsKeyValuePairs(ProcFSCache
   pid_t tgid = ProcessEvent::event.proc_ev.event_data.exit.process_tgid;
   uint32_t exit_code = ProcessEvent::event.proc_ev.event_data.exit.exit_code;
   uint32_t exit_signal = ProcessEvent::event.proc_ev.event_data.exit.exit_signal;
-  kvs[TYPE_KEY] = TYPE_EXIT;
-  kvs[TIMESTAMP_KEY] = std::to_string(ProcessEvent::timestamp);
   kvs[PID_KEY] = std::to_string(pid);
   kvs[TGID_KEY] = std::to_string(tgid);
+  kvs[CMDLINE_KEY] = cache.Read(tgid).cmdline.empty() ? cache.Read(pid).cmdline : cache.Read(tgid).cmdline;
+
   kvs[EXIT_CODE_KEY] = std::to_string(exit_code);
   kvs[EXIT_SIGNAL_KEY] = std::to_string(exit_signal);
 
-  kvs[CMDLINE_KEY] = cache.Read(tgid).cmdline.empty() ? cache.Read(pid).cmdline : cache.Read(tgid).cmdline;
   return std::move(kvs);
 }
 
