@@ -1,8 +1,8 @@
-#include "process_event_writer.h"
+#include "writer.h"
 
 #include <unordered_map>
 
-#include "process_event.h"
+#include "events/process_event.h"
 #include "procfs_cache.h"
 
 ProcessEventWriter::ProcessEventWriter(ProcFSCache& cache, const OutputFormat& format, std::ostream& os)

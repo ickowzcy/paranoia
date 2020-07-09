@@ -1,5 +1,5 @@
-#ifndef PARANOIA_PROCESS_EVENT_FORK_H
-#define PARANOIA_PROCESS_EVENT_FORK_H
+#ifndef PARANOIA_PE_FORK_H
+#define PARANOIA_PE_FORK_H
 
 #include <map>
 
@@ -15,4 +15,4 @@ class ForkProcessEvent : public ProcessEvent {
   [[nodiscard]] std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const override;
 };
 
-#endif  // PARANOIA_PROCESS_EVENT_FORK_H
+#endif  // PARANOIA_PE_FORK_H

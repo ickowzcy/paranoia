@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -pthread")
 set(INCLUDE ./include)
 set(SOURCES ./src/*.cpp)
 
-file(GLOB SOURCES "${SOURCES}")
+file(GLOB_RECURSE SOURCES "${SOURCES}")
 include_directories(${INCLUDE})
 
 include(FetchContent)

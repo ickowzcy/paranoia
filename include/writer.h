@@ -1,11 +1,11 @@
-#ifndef PARANOIA_PROCESS_EVENT_WRITER_H
-#define PARANOIA_PROCESS_EVENT_WRITER_H
+#ifndef PARANOIA_WRITER_H
+#define PARANOIA_WRITER_H
 
 #include <iostream>
 #include <sstream>
 
 #include "msg_queue.h"
-#include "process_event.h"
+#include "events/process_event.h"
 #include "procfs_cache.h"
 
 enum class OutputFormat { TEXT, JSON };
@@ -21,4 +21,4 @@ class ProcessEventWriter {
   std::ostream& os;
 };
 
-#endif  // PARANOIA_PROCESS_EVENT_WRITER_H
+#endif  // PARANOIA_WRITER_H

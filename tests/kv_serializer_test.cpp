@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "catch2/catch.hpp"
-#include "process_event_keys.h"
+#include "events/pe_keys.h"
 
 TEST_CASE("Key/Value pairs are serialized to text", "[kv_serializer]") {
   using Catch::Matchers::EndsWith;

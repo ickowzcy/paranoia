@@ -1,6 +1,6 @@
-#include "process_event_none.h"
+#include "events/pe_none.h"
 
-#include "process_event_keys.h"
+#include "events/pe_keys.h"
 
 std::map<std::string, std::string> NoneProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {
   std::map<std::string, std::string> kvs;

@@ -1,6 +1,6 @@
-#include "process_event_exit.h"
+#include "events/pe_exit.h"
 
-#include "process_event_keys.h"
+#include "events/pe_keys.h"
 
 void ExitProcessEvent::Annotate(ProcFSCache& cache) {}
 

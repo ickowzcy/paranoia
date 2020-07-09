@@ -1,6 +1,6 @@
-#include "process_event_exec.h"
+#include "events/pe_exec.h"
 
-#include "process_event_keys.h"
+#include "events/pe_keys.h"
 #include "procfs_parser.h"
 
 void ExecProcessEvent::Annotate(ProcFSCache& cache) {

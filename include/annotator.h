@@ -1,12 +1,12 @@
-#ifndef PARANOIA_PROCESS_EVENT_ANNOTATOR_H
-#define PARANOIA_PROCESS_EVENT_ANNOTATOR_H
+#ifndef PARANOIA_ANNOTATOR_H
+#define PARANOIA_ANNOTATOR_H
 
 #include <string>
 #include <unordered_map>
 
 #include "msg_queue.h"
-#include "process_event_listener.h"
-#include "process_event.h"
+#include "listener.h"
+#include "events/process_event.h"
 
 class ProcessEventAnnotator {
  public:
@@ -19,4 +19,4 @@ class ProcessEventAnnotator {
   ProcFSCache& procfsCache;
 };
 
-#endif  // PARANOIA_PROCESS_EVENT_ANNOTATOR_H
+#endif  // PARANOIA_ANNOTATOR_H

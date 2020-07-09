@@ -1,5 +1,5 @@
-#ifndef PARANOIA_PROCESS_EVENT_LISTENER_H
-#define PARANOIA_PROCESS_EVENT_LISTENER_H
+#ifndef PARANOIA_LISTENER_H
+#define PARANOIA_LISTENER_H
 
 #include <linux/cn_proc.h>
 #include <linux/connector.h>
@@ -16,7 +16,7 @@
 
 #include "msg_queue.h"
 #include "netlink_socket.h"
-#include "process_event.h"
+#include "events/process_event.h"
 #include "procfs_cache.h"
 
 using EventFactory = std::function<std::unique_ptr<ProcessEvent>(NetlinkMsg, time_t)>;
@@ -38,4 +38,4 @@ class ProcessEventListener {
   std::unordered_map<EventType, EventFactory> factories;
 };
 
-#endif  // PARANOIA_PROCESS_EVENT_LISTENER_H
+#endif  // PARANOIA_LISTENER_H

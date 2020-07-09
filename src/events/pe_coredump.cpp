@@ -1,6 +1,6 @@
-#include "process_event_coredump.h"
+#include "events/pe_coredump.h"
 
-#include "process_event_keys.h"
+#include "events/pe_keys.h"
 
 void CoredumpProcessEvent::Annotate(ProcFSCache& cache) {}
 

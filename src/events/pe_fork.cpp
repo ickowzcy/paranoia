@@ -1,6 +1,6 @@
-#include "process_event_fork.h"
+#include "events/pe_fork.h"
 
-#include "process_event_keys.h"
+#include "events/pe_keys.h"
 #include "procfs_parser.h"
 
 void ForkProcessEvent::Annotate(ProcFSCache& cache) {

@@ -1,4 +1,4 @@
-#include "process_event_listener.h"
+#include "listener.h"
 
 #include <sys/socket.h>
 #include <unistd.h>
@@ -6,11 +6,11 @@
 #include <sstream>
 
 #include "netlink_socket.h"
-#include "process_event_coredump.h"
-#include "process_event_exec.h"
-#include "process_event_exit.h"
-#include "process_event_fork.h"
-#include "process_event_none.h"
+#include "events/pe_coredump.h"
+#include "events/pe_exec.h"
+#include "events/pe_exit.h"
+#include "events/pe_fork.h"
+#include "events/pe_none.h"
 #include "procfs_cache.h"
 #include "procfs_parser.h"
 

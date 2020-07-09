@@ -1,14 +1,14 @@
-#ifndef PARANOIA_PROCESS_EVENT_EXIT_H
-#define PARANOIA_PROCESS_EVENT_EXIT_H
+#ifndef PARANOIA_PE_COREDUMP_H
+#define PARANOIA_PE_COREDUMP_H
 
 #include <map>
 
 #include "process_event.h"
 #include "procfs_cache.h"
 
-class ExitProcessEvent : public ProcessEvent {
+class CoredumpProcessEvent : public ProcessEvent {
  public:
-  ExitProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
+  CoredumpProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
   void Annotate(ProcFSCache& cache) override;
 
  private:
@@ -16,4 +16,4 @@ class ExitProcessEvent : public ProcessEvent {
   void PostWriteHook(ProcFSCache& cache) const override;
 };
 
-#endif  // PARANOIA_PROCESS_EVENT_EXIT_H
+#endif  // PARANOIA_PE_COREDUMP_H

@@ -1,5 +1,5 @@
-#ifndef PARANOIA_PROCESS_EVENT_NONE_H
-#define PARANOIA_PROCESS_EVENT_NONE_H
+#ifndef PARANOIA_PE_NONE_H
+#define PARANOIA_PE_NONE_H
 
 #include <map>
 
@@ -17,4 +17,4 @@ class NoneProcessEvent : public ProcessEvent {
 
 #include "process_event.h"
 
-#endif  // PARANOIA_PROCESS_EVENT_NONE_H
+#endif  // PARANOIA_PE_NONE_H

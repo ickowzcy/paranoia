@@ -1,5 +1,5 @@
-#ifndef PARANOIA_PROCESS_EVENT_KEYS_H
-#define PARANOIA_PROCESS_EVENT_KEYS_H
+#ifndef PARANOIA_PE_KEYS_H
+#define PARANOIA_PE_KEYS_H
 
 constexpr auto TYPE_KEY = "type";
 constexpr auto TYPE_NONE = "none";
@@ -20,4 +20,4 @@ constexpr auto CMDLINE_CHILD_KEY = "child_cmd";
 constexpr auto EXIT_CODE_KEY = "exit_code";
 constexpr auto EXIT_SIGNAL_KEY = "exit_signal";
 
-#endif  // PARANOIA_PROCESS_EVENT_KEYS_H
+#endif  // PARANOIA_PE_KEYS_H

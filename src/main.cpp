@@ -3,10 +3,10 @@
 #include <iomanip>
 #include <iostream>
 
-#include "process_event.h"
-#include "process_event_annotator.h"
-#include "process_event_listener.h"
-#include "process_event_writer.h"
+#include "events/process_event.h"
+#include "annotator.h"
+#include "listener.h"
+#include "writer.h"
 
 OutputFormat select_format(const char* fmt) {
   if (fmt != nullptr && std::string(fmt) == "json") {
