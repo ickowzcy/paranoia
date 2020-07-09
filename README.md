@@ -35,6 +35,7 @@ Presently, visibility is provided into the following proc event types:
 - exec
 - fork
 - exit
+- coredump
 
 ## Output formats supported
 Two output formats are available for your convenience. `text` is the default;
