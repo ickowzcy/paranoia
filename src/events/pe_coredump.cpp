@@ -2,8 +2,6 @@
 
 #include "events/pe_keys.h"
 
-void CoredumpProcessEvent::Annotate(ProcFSCache& cache) {}
-
 std::map<std::string, std::string> CoredumpProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {
   std::map<std::string, std::string> kvs;
   kvs[TYPE_KEY] = TYPE_COREDUMP;

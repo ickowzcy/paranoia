@@ -22,15 +22,21 @@
 
 class ProcessEvent {
  public:
-  ProcessEvent(NetlinkMsg event, time_t timestamp) : event(event), timestamp(timestamp){};
-  virtual void Annotate(ProcFSCache& cache) = 0;
+  virtual ~ProcessEvent() = default;
+
+  void Annotate(ProcFSCache& cache) const;
   void Format(ProcFSCache& cache, const KVSerializer& serializer, std::ostream& os) const;
 
  protected:
-  [[nodiscard]] virtual std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const = 0;
-  virtual void PostWriteHook(ProcFSCache& cache) const {};
+  ProcessEvent(NetlinkMsg event, time_t timestamp) : event(event), timestamp(timestamp){};
+
   NetlinkMsg event{};
   time_t timestamp{};
+
+ private:
+  [[nodiscard]] virtual std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const = 0;
+  virtual void UpdateCache(ProcFSCache& cache) const {};
+  virtual void PostWriteHook(ProcFSCache& cache) const {};
 };
 
 #endif  // PARANOIA_PROCESS_EVENT_H

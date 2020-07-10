@@ -3,7 +3,7 @@
 #include "events/pe_keys.h"
 #include "procfs_parser.h"
 
-void ForkProcessEvent::Annotate(ProcFSCache& cache) {
+void ForkProcessEvent::UpdateCache(ProcFSCache& cache) const {
   pid_t pPid = ProcessEvent::event.proc_ev.event_data.fork.parent_pid;
   pid_t cPid = ProcessEvent::event.proc_ev.event_data.fork.child_pid;
   pid_t pTgid = ProcessEvent::event.proc_ev.event_data.fork.parent_tgid;

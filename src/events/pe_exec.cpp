@@ -3,7 +3,7 @@
 #include "events/pe_keys.h"
 #include "procfs_parser.h"
 
-void ExecProcessEvent::Annotate(ProcFSCache& cache) {
+void ExecProcessEvent::UpdateCache(ProcFSCache& cache) const {
   pid_t pid = ProcessEvent::event.proc_ev.event_data.exec.process_pid;
   pid_t tgid = ProcessEvent::event.proc_ev.event_data.exec.process_tgid;
   cache.Refresh(pid, std::move(ProcFSInfo{ProcFSParser::Command(pid)}));

@@ -8,5 +8,3 @@ std::map<std::string, std::string> NoneProcessEvent::AsKeyValuePairs(ProcFSCache
   kvs[TIMESTAMP_KEY] = std::to_string(ProcessEvent::timestamp);
   return std::move(kvs);
 }
-
-void NoneProcessEvent::Annotate(ProcFSCache& cache) {}

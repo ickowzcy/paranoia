@@ -2,8 +2,6 @@
 
 #include "events/pe_keys.h"
 
-void ExitProcessEvent::Annotate(ProcFSCache& cache) {}
-
 std::map<std::string, std::string> ExitProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {
   std::map<std::string, std::string> kvs;
   kvs[TYPE_KEY] = TYPE_EXIT;

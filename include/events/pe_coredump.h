@@ -9,7 +9,6 @@
 class CoredumpProcessEvent : public ProcessEvent {
  public:
   CoredumpProcessEvent(NetlinkMsg event, time_t timestamp) : ProcessEvent(event, timestamp){};
-  void Annotate(ProcFSCache& cache) override;
 
  private:
   [[nodiscard]] std::map<std::string, std::string> AsKeyValuePairs(ProcFSCache& cache) const override;
