@@ -7,6 +7,7 @@
 #include "events/process_event.h"
 #include "listener.h"
 #include "util/log.h"
+#include "util/time.h"
 #include "writer.h"
 
 OutputFormat select_format(const char* fmt) {
@@ -28,7 +29,7 @@ std::string hostname() {
 
 int main(int argc, const char* argv[]) {
   auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  log("Paranoia started on ", hostname(), " at ", std::put_time(std::localtime(&now), "%F %T %Z"), "\n");
+  log("Paranoia started on ", hostname(), " at ", prettytimestamp(now), "\n");
 
   MsgQueue<std::unique_ptr<ProcessEvent>> non_annotated_events;
   MsgQueue<std::unique_ptr<ProcessEvent>> annotated_events;

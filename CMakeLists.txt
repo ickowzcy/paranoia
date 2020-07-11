@@ -35,9 +35,9 @@ endif()
 add_subdirectory(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR} EXCLUDE_FROM_ALL)
 add_executable(
         tests tests/tests.cpp
-        src/kv_serializer.cpp tests/kv_serializer_test.cpp
-        include/msg_queue.h tests/msg_queue_test.cpp
-        include/util/concat.h tests/util_test.cpp
+        src/kv_serializer.cpp src/util/time.cpp tests/kv_serializer_test.cpp
+        tests/msg_queue_test.cpp
+        tests/util_test.cpp
 )
 target_link_libraries(tests Catch2::Catch2)
 
