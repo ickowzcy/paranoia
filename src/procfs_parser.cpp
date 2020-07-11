@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 
-std::string ProcFSParser::Command(int pid) {
+std::string ProcFSParser::Cmd(int pid) {
   std::ifstream stream(PROC_DIRECTORY + std::to_string(pid) + CMDLINE_FILE);
   std::ostringstream oss;
   char c;

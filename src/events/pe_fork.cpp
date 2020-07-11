@@ -8,10 +8,10 @@ void ForkProcessEvent::UpdateCache(ProcFSCache& cache) const {
   pid_t cPid = ProcessEvent::event.proc_ev.event_data.fork.child_pid;
   pid_t pTgid = ProcessEvent::event.proc_ev.event_data.fork.parent_tgid;
   pid_t cTgid = ProcessEvent::event.proc_ev.event_data.fork.child_tgid;
-  cache.Refresh(pPid, std::move(ProcFSInfo{ProcFSParser::Command(pPid)}));
-  cache.Refresh(cPid, std::move(ProcFSInfo{ProcFSParser::Command(cPid)}));
-  cache.Refresh(pTgid, std::move(ProcFSInfo{ProcFSParser::Command(pTgid)}));
-  cache.Refresh(cTgid, std::move(ProcFSInfo{ProcFSParser::Command(cTgid)}));
+  cache.Refresh(pPid, std::move(ProcFSInfo{ProcFSParser::Cmd(pPid)}));
+  cache.Refresh(cPid, std::move(ProcFSInfo{ProcFSParser::Cmd(cPid)}));
+  cache.Refresh(pTgid, std::move(ProcFSInfo{ProcFSParser::Cmd(pTgid)}));
+  cache.Refresh(cTgid, std::move(ProcFSInfo{ProcFSParser::Cmd(cTgid)}));
 }
 
 std::map<std::string, std::string> ForkProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {

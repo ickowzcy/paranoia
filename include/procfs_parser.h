@@ -9,7 +9,7 @@ namespace ProcFSParser {
 constexpr auto PROC_DIRECTORY = "/proc/";
 constexpr auto CMDLINE_FILE = "/cmdline";
 
-std::string Command(int pid);
+std::string Cmd(int pid);
 }  // namespace ProcFSParser
 
 #endif  // PARANOIA_PROCFS_PARSER_H
