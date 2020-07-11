@@ -8,7 +8,7 @@
 #include <queue>
 #include <thread>
 
-// MsgQueue represents an unbound message queue which can be used for
+// MsgQueue represents an unbound FIFO message queue which can be used for
 // communication between threads.
 template <class T>
 class MsgQueue {
@@ -26,7 +26,7 @@ class MsgQueue {
   void Send(T&& msg) {
     std::lock_guard<std::mutex> uLock(mtx);
 
-    messages.push_back(std::move(msg));
+    messages.emplace_front(std::move(msg));
 
     cond.notify_one();
   }
