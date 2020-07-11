@@ -33,7 +33,12 @@ if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
 endif()
 add_subdirectory(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR} EXCLUDE_FROM_ALL)
-add_executable(tests tests/tests.cpp src/kv_serializer.cpp tests/kv_serializer_test.cpp include/msg_queue.h tests/msg_queue_test.cpp)
+add_executable(
+        tests tests/tests.cpp
+        src/kv_serializer.cpp tests/kv_serializer_test.cpp
+        include/msg_queue.h tests/msg_queue_test.cpp
+        include/util/concat.h tests/util_test.cpp
+)
 target_link_libraries(tests Catch2::Catch2)
 
 add_executable(paranoia ${SOURCES})

@@ -3,9 +3,10 @@
 #include <iomanip>
 #include <iostream>
 
-#include "events/process_event.h"
 #include "annotator.h"
+#include "events/process_event.h"
 #include "listener.h"
+#include "util/log.h"
 #include "writer.h"
 
 OutputFormat select_format(const char* fmt) {
@@ -19,9 +20,7 @@ std::string hostname() {
   char h[HOST_NAME_MAX];
   int rc = gethostname(h, HOST_NAME_MAX);
   if (rc == -1) {
-    std::cerr << "Error retrieving hostname: ";
-    std::cerr << std::strerror(errno);
-    std::cerr << "\n";
+    log("Error retrieving hostname: ", std::strerror(errno), "\n");
     return "[unknown-host]";
   }
   return std::string(h);
@@ -29,8 +28,7 @@ std::string hostname() {
 
 int main(int argc, const char* argv[]) {
   auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-  std::cerr << "Paranoia started on " << hostname() << " at " << std::put_time(std::localtime(&now), "%F %T %Z")
-            << "\n";
+  log("Paranoia started on ", hostname(), " at ", std::put_time(std::localtime(&now), "%F %T %Z"), "\n");
 
   MsgQueue<std::unique_ptr<ProcessEvent>> non_annotated_events;
   MsgQueue<std::unique_ptr<ProcessEvent>> annotated_events;
@@ -45,8 +43,7 @@ int main(int argc, const char* argv[]) {
   std::thread writer_thread(&ProcessEventWriter::Write, &writer, &annotated_events);
   std::thread annotator_thread(&ProcessEventAnnotator::Annotate, &annotator, &non_annotated_events, &annotated_events);
 
-  std::cerr << "Spinning ← ↖ ↑ ↗ → ↘ ↓ ↙ ..."
-            << "\n";
+  log("Spinning ← ↖ ↑ ↗ → ↘ ↓ ↙ ...\n");
 
   // Next call blocks
   listener.Listen(&non_annotated_events);
