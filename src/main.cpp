@@ -44,8 +44,6 @@ int main(int argc, const char* argv[]) {
   std::thread writer_thread(&ProcessEventWriter::Write, &writer, &annotated_events);
   std::thread annotator_thread(&ProcessEventAnnotator::Annotate, &annotator, &non_annotated_events, &annotated_events);
 
-  log("Spinning ← ↖ ↑ ↗ → ↘ ↓ ↙ ...\n");
-
   // Next call blocks
   listener.Listen(&non_annotated_events);
 }
