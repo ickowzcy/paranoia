@@ -8,6 +8,8 @@
 #include <queue>
 #include <thread>
 
+// MsgQueue represents an unbound message queue which can be used for
+// communication between threads.
 template <class T>
 class MsgQueue {
  public:

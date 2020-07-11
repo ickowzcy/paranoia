@@ -20,6 +20,7 @@
 #include "netlink_socket.h"
 #include "procfs_cache.h"
 
+// Abstract class representing a process-related event.
 class ProcessEvent {
  public:
   virtual ~ProcessEvent() = default;

@@ -14,9 +14,9 @@
 #include <cstring>
 #include <unordered_map>
 
+#include "events/process_event.h"
 #include "msg_queue.h"
 #include "netlink_socket.h"
-#include "events/process_event.h"
 #include "procfs_cache.h"
 
 using EventFactory = std::function<std::unique_ptr<ProcessEvent>(NetlinkMsg, time_t)>;
@@ -25,13 +25,17 @@ using EventFactory = std::function<std::unique_ptr<ProcessEvent>(NetlinkMsg, tim
 // https://github.com/torvalds/linux/blob/master/include/uapi/linux/cn_proc.h
 using EventType = int;
 
+// ProcessEventListener observes process-related events reported by the kernel.
+// Each observed event is added to a MsgQueue.
 class ProcessEventListener {
  public:
   ProcessEventListener();
 
+  // Listens for events. Each observed event is added to the queue.
   [[noreturn]] void Listen(MsgQueue<std::unique_ptr<ProcessEvent>>* queue) const;
 
  private:
+  // Register an EventFactory for each known EventType.
   void RegisterEventFactories();
 
   NetlinkSocket nlsocket;

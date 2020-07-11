@@ -18,10 +18,13 @@
 #include "msg_queue.h"
 #include "unordered_map"
 
+// ProcFSInfo represents information retrieved from the proc pseudo-filesystem.
 struct ProcFSInfo {
   std::string cmdline;
 };
 
+// ProcFSCache is a cache for storing information retrieved from the proc
+// pseudo-filesystem.
 class ProcFSCache {
  public:
   void Refresh(pid_t pid, ProcFSInfo data);

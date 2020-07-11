@@ -19,7 +19,7 @@ std::string prettytimestamp(time_t t) {
   return oss.str();
 };
 
-std::string KVTextSerializer::Encode(const std::map<std::string, std::string>& kv_pairs) const {
+std::string KVTextSerializer::Serialize(const std::map<std::string, std::string>& kv_pairs) const {
   std::ostringstream oss;
   oss << prettytimestamp(std::stoi(kv_pairs.at(TIMESTAMP_KEY)));
   oss << " : ";
@@ -42,7 +42,7 @@ std::string KVTextSerializer::Encode(const std::map<std::string, std::string>& k
   return oss.str();
 }
 
-std::string KVJSONSerializer::Encode(const std::map<std::string, std::string>& kv_pairs) const {
+std::string KVJSONSerializer::Serialize(const std::map<std::string, std::string>& kv_pairs) const {
   nlohmann::json j(kv_pairs);
   std::ostringstream oss;
   oss << j;

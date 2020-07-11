@@ -13,7 +13,7 @@ TEST_CASE("Key/Value pairs are serialized to text", "[kv_serializer]") {
   std::map<std::string, std::string> kv_test{
       {TYPE_KEY, TYPE_EXEC}, {TIMESTAMP_KEY, "0"}, {"foo", "42"}, {"bar", "(- -)"}};
 
-  REQUIRE_THAT(serializer.Encode(kv_test), EndsWith(" [ bar:\"(- -)\" foo:\"42\" ]"));
+  REQUIRE_THAT(serializer.Serialize(kv_test), EndsWith(" [ bar:\"(- -)\" foo:\"42\" ]"));
 }
 
 TEST_CASE("Key/Value pairs are serialized to json", "[kv_serializer]") {
@@ -39,5 +39,5 @@ TEST_CASE("Key/Value pairs are serialized to json", "[kv_serializer]") {
   add_expected_term(TYPE_KEY, TYPE_EXEC, false);
   expected << "}";
 
-  REQUIRE(expected.str() == serializer.Encode(kv_test));
+  REQUIRE(expected.str() == serializer.Serialize(kv_test));
 }

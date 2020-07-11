@@ -8,6 +8,6 @@ void ProcessEvent::Annotate(ProcFSCache& cache) const{
 }
 
 void ProcessEvent::Format(ProcFSCache& cache, const KVSerializer& serializer, std::ostream& os) const {
-  os << serializer.Encode(AsKeyValuePairs(cache)) << "\n";
+  os << serializer.Serialize(AsKeyValuePairs(cache)) << "\n";
   PostWriteHook(cache);
 }

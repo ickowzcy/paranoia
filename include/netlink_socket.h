@@ -29,6 +29,8 @@ struct __attribute__((aligned(NLMSG_ALIGNTO))) NetlinkMsg {
   };
 };
 
+// NetlinkSocket represents a socket for communicating with the kernel and
+// retrieving process-related information using the netlink connector mechanism.
 class NetlinkSocket {
  public:
   NetlinkSocket();
