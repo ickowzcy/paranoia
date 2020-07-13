@@ -35,8 +35,13 @@ class ProcessEventListener {
   [[noreturn]] void Listen(MsgQueue<std::unique_ptr<ProcessEvent>>* queue) const;
 
  private:
-  // Register an EventFactory for each known EventType.
+  // Registers an EventFactory for each known EventType.
   void RegisterEventFactories();
+
+  template <typename T>
+  constexpr auto MakeEventFactory() {
+    return [](NetlinkMsg event, time_t timestamp) { return std::make_unique<T>(event, timestamp); };
+  }
 
   NetlinkSocket nlsocket;
   std::unordered_map<EventType, EventFactory> factories;
