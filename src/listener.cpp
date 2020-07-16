@@ -16,8 +16,6 @@
 #include "util/log.h"
 
 ProcessEventListener::ProcessEventListener() {
-  nlsocket.Bind();
-  nlsocket.Subscribe();
   RegisterEventFactories();
 }
 

@@ -39,11 +39,16 @@ int main(int argc, const char* argv[]) {
 
   ProcessEventAnnotator annotator(procfs_cache);
 
-  ProcessEventListener listener;
-
   std::thread writer_thread(&ProcessEventWriter::Write, &writer, &annotated_events);
   std::thread annotator_thread(&ProcessEventAnnotator::Annotate, &annotator, &non_annotated_events, &annotated_events);
 
-  // Next call blocks
-  listener.Listen(&non_annotated_events);
+  try {
+    ProcessEventListener listener;
+
+    // Next call blocks
+    listener.Listen(&non_annotated_events);
+  } catch (std::runtime_error& e) {
+    log("Exiting due to runtime error: ", e.what());
+    std::exit(1);
+  }
 }

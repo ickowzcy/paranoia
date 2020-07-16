@@ -40,11 +40,12 @@ class NetlinkSocket {
   NetlinkSocket& operator=(NetlinkSocket& other) = delete;
   NetlinkSocket& operator=(NetlinkSocket&& other) = delete;
 
-  void Bind() const;
-  void Subscribe() const;
   [[nodiscard]] NetlinkMsg Recv() const;
 
  private:
+  void Bind() const;
+  void Subscribe() const;
+
   int nlsock{};
 };
 
