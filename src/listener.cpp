@@ -10,14 +10,11 @@
 #include "events/pe_exit.h"
 #include "events/pe_fork.h"
 #include "events/pe_none.h"
-#include "netlink_socket.h"
 #include "procfs_cache.h"
 #include "procfs_parser.h"
 #include "util/log.h"
 
-ProcessEventListener::ProcessEventListener() {
-  RegisterEventFactories();
-}
+ProcessEventListener::ProcessEventListener() { RegisterEventFactories(); }
 
 void ProcessEventListener::Listen(MsgQueue<std::unique_ptr<ProcessEvent>>* queue) const {
   auto clk = std::chrono::system_clock();
@@ -25,23 +22,25 @@ void ProcessEventListener::Listen(MsgQueue<std::unique_ptr<ProcessEvent>>* queue
   NetlinkMsg event{};
   while (true) {
     try {
-      event = nlsocket.Recv();
-    } catch (InterruptedException& e) {
-      int delaySecs = 2;
-      log(e.what(), " (Retrying in ", delaySecs, " seconds)\n");
-      std::this_thread::sleep_for(std::chrono::seconds(delaySecs));
-      continue;
+      event = conn.Recv();
+    } catch (ErrnoException& e) {
+      if (EINTR == e.err) {
+        int delaySecs = 1;
+        log(e.what(), " (Retrying in ", delaySecs, " seconds)\n");
+        std::this_thread::sleep_for(std::chrono::seconds(delaySecs));
+        continue;
+      }
+      throw;
     }
 
-    try {
+    // Only handle event types we known about
+    if (factories.count(event.proc_ev.what) > 0) {
       queue->Send(factories.at(event.proc_ev.what)(event, clk.to_time_t(clk.now())));
-    } catch (std::out_of_range&) {
-      // Ignore non registered events
     }
   }
 }
 
-void ProcessEventListener::RegisterEventFactories() {
+void ProcessEventListener::RegisterEventFactories() noexcept {
   auto registerEventFactory = [this](EventType type, EventFactory&& factory) { factories[type] = std::move(factory); };
 
   registerEventFactory(proc_event::what::PROC_EVENT_NONE, MakeEventFactory<NoneProcessEvent>());

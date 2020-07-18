@@ -16,7 +16,7 @@
 
 #include "events/process_event.h"
 #include "msg_queue.h"
-#include "netlink_socket.h"
+#include "netlink/connector.h"
 #include "procfs_cache.h"
 
 using EventFactory = std::function<std::unique_ptr<ProcessEvent>(NetlinkMsg, time_t)>;
@@ -36,15 +36,16 @@ class ProcessEventListener {
 
  private:
   // Registers an EventFactory for each known EventType.
-  void RegisterEventFactories();
+  void RegisterEventFactories() noexcept;
 
   template <typename T>
   constexpr auto MakeEventFactory() {
     return [](NetlinkMsg event, time_t timestamp) { return std::make_unique<T>(event, timestamp); };
   }
 
-  NetlinkSocket nlsocket;
-  std::unordered_map<EventType, EventFactory> factories;
+  // NetlinkSocket nlsocket;
+  Connector conn{};
+  std::unordered_map<EventType, EventFactory> factories{};
 };
 
 #endif  // PARANOIA_LISTENER_H

@@ -17,7 +17,7 @@
 
 #include "kv_serializer.h"
 #include "msg_queue.h"
-#include "netlink_socket.h"
+#include "netlink/connector.h"
 #include "procfs_cache.h"
 
 // Abstract class representing a process-related event.
