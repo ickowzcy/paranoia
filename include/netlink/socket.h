@@ -34,7 +34,7 @@ class Socket {
     if (len == -1) {
       throw ErrnoException(errno, "error receiving from socket");
     }
-    return std::move(msg);
+    return msg;
   }
 
   template <typename T>

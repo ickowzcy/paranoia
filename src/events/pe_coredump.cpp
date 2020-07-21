@@ -19,7 +19,7 @@ std::map<std::string, std::string> CoredumpProcessEvent::AsKeyValuePairs(ProcFSC
   kvs[TGID_KEY] = std::to_string(tgid);
   kvs[CMDLINE_KEY] = cache.Read(tgid).cmdline.empty() ? cache.Read(pid).cmdline : cache.Read(tgid).cmdline;
 
-  return std::move(kvs);
+  return kvs;
 }
 
 void CoredumpProcessEvent::PostWriteHook(ProcFSCache& cache) const {

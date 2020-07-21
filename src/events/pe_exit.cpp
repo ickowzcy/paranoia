@@ -24,7 +24,7 @@ std::map<std::string, std::string> ExitProcessEvent::AsKeyValuePairs(ProcFSCache
   kvs[EXIT_CODE_KEY] = std::to_string(exit_code);
   kvs[EXIT_SIGNAL_KEY] = std::to_string(exit_signal);
 
-  return std::move(kvs);
+  return kvs;
 }
 
 void ExitProcessEvent::PostWriteHook(ProcFSCache& cache) const {
