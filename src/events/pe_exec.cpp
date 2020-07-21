@@ -14,10 +14,10 @@ std::map<std::string, std::string> ExecProcessEvent::AsKeyValuePairs(ProcFSCache
   pid_t pid = event.proc_ev.event_data.exec.process_pid;
   pid_t tgid = event.proc_ev.event_data.exec.process_tgid;
   std::map<std::string, std::string> kvs;
-  kvs[TYPE_KEY] = TYPE_EXEC;
-  kvs[TIMESTAMP_KEY] = std::to_string(timestamp);
-  kvs[PID_KEY] = std::to_string(pid);
-  kvs[TGID_KEY] = std::to_string(tgid);
-  kvs[CMDLINE_KEY] = cache.Read(tgid).cmdline.empty() ? cache.Read(pid).cmdline : cache.Read(tgid).cmdline;
+  kvs.emplace(TYPE_KEY, TYPE_EXEC);
+  kvs.emplace(TIMESTAMP_KEY, std::to_string(timestamp));
+  kvs.emplace(PID_KEY, std::to_string(pid));
+  kvs.emplace(TGID_KEY, std::to_string(tgid));
+  kvs.emplace(CMDLINE_KEY, cache.Read(tgid).cmdline.empty() ? cache.Read(pid).cmdline : cache.Read(tgid).cmdline);
   return kvs;
 }

@@ -4,7 +4,7 @@
 
 std::map<std::string, std::string> NoneProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {
   std::map<std::string, std::string> kvs;
-  kvs[TYPE_KEY] = TYPE_NONE;
-  kvs[TIMESTAMP_KEY] = std::to_string(ProcessEvent::timestamp);
+  kvs.emplace(TYPE_KEY, TYPE_NONE);
+  kvs.emplace(TIMESTAMP_KEY, std::to_string(ProcessEvent::timestamp));
   return kvs;
 }

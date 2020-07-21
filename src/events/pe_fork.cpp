@@ -20,13 +20,15 @@ std::map<std::string, std::string> ForkProcessEvent::AsKeyValuePairs(ProcFSCache
   pid_t cPid = event.proc_ev.event_data.fork.child_pid;
   pid_t pTgid = event.proc_ev.event_data.fork.parent_tgid;
   pid_t cTgid = event.proc_ev.event_data.fork.child_tgid;
-  kvs[TYPE_KEY] = TYPE_FORK;
-  kvs[TIMESTAMP_KEY] = std::to_string(timestamp);
-  kvs[PID_PARENT_KEY] = std::to_string(pPid);
-  kvs[PID_CHILD_KEY] = std::to_string(cPid);
-  kvs[TGID_PARENT_KEY] = std::to_string(pTgid);
-  kvs[TGID_CHILD_KEY] = std::to_string(cTgid);
-  kvs[CMDLINE_PARENT_KEY] = cache.Read(pTgid).cmdline.empty() ? cache.Read(pPid).cmdline : cache.Read(pTgid).cmdline;
-  kvs[CMDLINE_CHILD_KEY] = cache.Read(cTgid).cmdline.empty() ? cache.Read(cPid).cmdline : cache.Read(cTgid).cmdline;
+  kvs.emplace(TYPE_KEY, TYPE_FORK);
+  kvs.emplace(TIMESTAMP_KEY, std::to_string(timestamp));
+  kvs.emplace(PID_PARENT_KEY, std::to_string(pPid));
+  kvs.emplace(PID_CHILD_KEY, std::to_string(cPid));
+  kvs.emplace(TGID_PARENT_KEY, std::to_string(pTgid));
+  kvs.emplace(TGID_CHILD_KEY, std::to_string(cTgid));
+  kvs.emplace(CMDLINE_PARENT_KEY,
+              cache.Read(pTgid).cmdline.empty() ? cache.Read(pPid).cmdline : cache.Read(pTgid).cmdline);
+  kvs.emplace(CMDLINE_CHILD_KEY,
+              cache.Read(cTgid).cmdline.empty() ? cache.Read(cPid).cmdline : cache.Read(cTgid).cmdline);
   return kvs;
 }
