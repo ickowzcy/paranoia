@@ -6,8 +6,8 @@
 void ExecProcessEvent::UpdateCache(ProcFSCache& cache) const {
   pid_t pid = ProcessEvent::event.proc_ev.event_data.exec.process_pid;
   pid_t tgid = ProcessEvent::event.proc_ev.event_data.exec.process_tgid;
-  cache.Refresh(pid, ProcFSInfo{ProcFSParser::Cmd(pid)});
-  cache.Refresh(tgid, ProcFSInfo{ProcFSParser::Cmd(tgid)});
+  cache.Refresh(pid, std::move(ProcFSInfo{ProcFSParser::Cmd(pid)}));
+  cache.Refresh(tgid, std::move(ProcFSInfo{ProcFSParser::Cmd(tgid)}));
 }
 
 std::map<std::string, std::string> ExecProcessEvent::AsKeyValuePairs(ProcFSCache& cache) const {
