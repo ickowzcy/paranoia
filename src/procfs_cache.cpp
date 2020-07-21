@@ -2,7 +2,7 @@
 
 void ProcFSCache::Refresh(pid_t pid, ProcFSInfo data) {
   std::lock_guard<std::mutex> lock(mtx);
-    cache.emplace(pid, std::move(data));
+    cache.insert_or_assign(pid, std::move(data));
 }
 
 void ProcFSCache::Invalidate(pid_t pid) {
